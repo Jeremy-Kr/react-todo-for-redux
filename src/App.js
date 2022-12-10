@@ -1,7 +1,6 @@
 import { Layout } from "./components/Layouts";
 import GlobalStyle from "./components/GlobalStyle";
-import TodoInput from "./components/TodoInput";
-import TodoContainer from "./components/TodoContainer";
+import { TodoInput, TodoContainer } from "./components/TodoList";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
