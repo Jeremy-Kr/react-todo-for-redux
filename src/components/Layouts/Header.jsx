@@ -11,13 +11,13 @@ const Header = () => {
   );
 };
 
-const StickyContainer = styled.div`
+const StickyContainer = styled.header`
   position: sticky;
   top: 0rem;
   background-color: #fff;
 `;
 
-const FlexHeader = styled.header`
+const FlexHeader = styled.div`
   margin: 0.6rem 0;
   display: flex;
   justify-content: space-between;
