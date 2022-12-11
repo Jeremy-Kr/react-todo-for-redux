@@ -1,4 +1,4 @@
-import TodoItem from "./TodoItem";
+import { TodoItem } from "./";
 import styled from "styled-components";
 
 const TodoList = ({ todoItems, children }) => {
