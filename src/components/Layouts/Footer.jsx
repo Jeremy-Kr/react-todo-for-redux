@@ -1,6 +1,6 @@
 import styled from "styled-components";
 const Footer = () => {
-  return <CustomFooter>Copyright &copy; 2022.12.10</CustomFooter>;
+  return <CustomFooter>Copyright &copy; 2022.12.</CustomFooter>;
 };
 
 const CustomFooter = styled.footer`

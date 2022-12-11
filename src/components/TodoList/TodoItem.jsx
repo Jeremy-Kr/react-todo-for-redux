@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteTodo, toggleTodo } from "../../redux/modules/todoList";
+import { Link } from "react-router-dom";
 
 const TodoItem = ({ todoItem }) => {
   const dispatch = useDispatch();
@@ -24,7 +25,9 @@ const TodoItem = ({ todoItem }) => {
 
   return (
     <CustomLi>
-      <h3>{todoItem.todoTitle}</h3>
+      <Link to={`todo/${todoItem.id}`}>
+        <h3>{todoItem.todoTitle}</h3>
+      </Link>
       <CustomHr />
       <span>{todoItem.todoContent}</span>
       <ButtonContainer>

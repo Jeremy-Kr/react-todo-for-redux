@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import TodoList from "./TodoList";
+import { TodoList } from "./";
 import { useSelector } from "react-redux";
 
 const TodoContainer = () => {
