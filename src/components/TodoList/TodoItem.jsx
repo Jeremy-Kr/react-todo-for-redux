@@ -1,5 +1,27 @@
 import styled from "styled-components";
-const TodoItem = ({ todoItem, onClickDeleteHandler, onClickToggleHandler }) => {
+import { useDispatch, useSelector } from "react-redux";
+import { deleteTodo, toggleTodo } from "../../redux/modules/todoList";
+
+const TodoItem = ({ todoItem }) => {
+  const dispatch = useDispatch();
+  const todoList = useSelector((state) => state.todoList);
+
+  const onClickDeleteHandler = (todoItemId) => {
+    const newTodoList = todoList.filter((item) => item.id !== todoItemId);
+    dispatch(deleteTodo(newTodoList));
+  };
+
+  const onClickToggleHandler = (todoItemId) => {
+    const newTodoList = [...todoList];
+    newTodoList.forEach((item) => {
+      if (item.id === todoItemId) {
+        return (item.isDone = !item.isDone);
+      }
+    });
+
+    dispatch(toggleTodo(newTodoList));
+  };
+
   return (
     <CustomLi>
       <h3>{todoItem.todoTitle}</h3>

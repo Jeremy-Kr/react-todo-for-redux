@@ -1,30 +1,17 @@
 import styled from "styled-components";
 import TodoList from "./TodoList";
+import { useSelector } from "react-redux";
 
-const TodoContainer = ({
-  todoList,
-  onClickDeleteHandler,
-  onClickToggleHandler,
-}) => {
+const TodoContainer = () => {
+  const todoList = useSelector((state) => state.todoList);
+
   const todoItems = todoList.filter((item) => !item.isDone);
   const doneItems = todoList.filter((item) => item.isDone);
 
   return (
     <TodoFlexBox>
-      <TodoList
-        onClickToggleHandler={onClickToggleHandler}
-        onClickDeleteHandler={onClickDeleteHandler}
-        todoItems={todoItems}
-      >
-        🔥 Todo 🔥
-      </TodoList>
-      <TodoList
-        onClickToggleHandler={onClickToggleHandler}
-        onClickDeleteHandler={onClickDeleteHandler}
-        todoItems={doneItems}
-      >
-        🎊 Done 🎊
-      </TodoList>
+      <TodoList todoItems={todoItems}>🔥 Todo 🔥</TodoList>
+      <TodoList todoItems={doneItems}>🎊 Done 🎊</TodoList>
     </TodoFlexBox>
   );
 };

@@ -1,22 +1,12 @@
 import TodoItem from "./TodoItem";
 import styled from "styled-components";
 
-const TodoList = ({
-  todoItems,
-  children,
-  onClickDeleteHandler,
-  onClickToggleHandler,
-}) => {
+const TodoList = ({ todoItems, children }) => {
   return (
     <ul>
       <CustomH2>{children}</CustomH2>
       {todoItems.map((todoItem) => (
-        <TodoItem
-          onClickToggleHandler={onClickToggleHandler}
-          onClickDeleteHandler={onClickDeleteHandler}
-          todoItem={todoItem}
-          key={todoItem.id}
-        />
+        <TodoItem todoItem={todoItem} key={todoItem.id} />
       ))}
     </ul>
   );

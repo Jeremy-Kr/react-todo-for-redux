@@ -1,8 +1,14 @@
 import styled from "styled-components";
 import { useState } from "react";
-const TodoInput = ({ onSubmitHandler }) => {
+import { v4 as uuidv4 } from "uuid";
+import { addTodo } from "../../redux/modules/todoList";
+import { useDispatch } from "react-redux";
+
+const TodoInput = () => {
   const [todoTitle, setTodoTitle] = useState("");
   const [todoContent, setTodoContent] = useState("");
+
+  const dispatch = useDispatch();
 
   const handleTodoTitleOnChange = (event) => {
     setTodoTitle(event.target.value);
@@ -12,21 +18,36 @@ const TodoInput = ({ onSubmitHandler }) => {
     setTodoContent(event.target.value);
   };
 
+  const onSubmitHandler = (event) => {
+    if (!todoTitle && !todoContent) {
+      event.preventDefault();
+      return alert("뭐라도 좀 쓰쇼");
+    }
+    if (!todoTitle) {
+      event.preventDefault();
+      return alert("제목 좀 쓰쇼");
+    }
+    if (!todoContent) {
+      event.preventDefault();
+      return alert("내용도 좀 쓰쇼");
+    }
+    event.preventDefault();
+
+    const newTodoItem = {
+      todoTitle,
+      todoContent,
+      isDone: false,
+      id: uuidv4(),
+    };
+
+    dispatch(addTodo(newTodoItem));
+    setTodoTitle("");
+    setTodoContent("");
+  };
+
   return (
     <TodoInputContainer
       onSubmit={(event) => {
-        if (!todoTitle && !todoContent) {
-          event.preventDefault();
-          return alert("뭐라도 좀 쓰쇼");
-        }
-        if (!todoTitle) {
-          event.preventDefault();
-          return alert("제목 좀 쓰쇼");
-        }
-        if (!todoContent) {
-          event.preventDefault();
-          return alert("내용도 좀 쓰쇼");
-        }
         onSubmitHandler(
           event,
           todoTitle,
