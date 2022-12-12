@@ -12,7 +12,7 @@ const TodoItem = ({ todoItem }) => {
   const dispatch = useDispatch();
   const todoList = useSelector((state) => state.todoList);
 
-  const todoItemId = todoItem.id;
+  const { id } = todoItem;
 
   const [todoTitle, setTodoTitle] = useState(todoItem.todoTitle);
   const [todoContent, setTodoContent] = useState(todoItem.todoContent);
@@ -28,20 +28,20 @@ const TodoItem = ({ todoItem }) => {
 
   // todo delete logic
   const deleteTodoItem = () => {
-    const newTodoList = todoList.filter((item) => item.id !== todoItemId);
+    const newTodoList = todoList.filter((item) => item.id !== id);
     dispatch(deleteTodo(newTodoList));
   };
 
   // delete button onclick handler
   const onClickDeleteHandler = () => {
-    deleteTodoItem(todoItemId);
+    deleteTodoItem();
   };
 
   // todo toggle logic
   const toggleTodoItem = () => {
     const newTodoList = [...todoList];
     newTodoList.forEach((item) => {
-      if (item.id === todoItemId) {
+      if (item.id === id) {
         return (item.isDone = !item.isDone);
       }
     });
@@ -51,14 +51,14 @@ const TodoItem = ({ todoItem }) => {
 
   // toggle button onclick handler
   const onClickToggleHandler = () => {
-    toggleTodoItem(todoItemId);
+    toggleTodoItem();
   };
 
   // todo update logic
   const updateTodoItem = () => {
     const newTodoList = [...todoList];
     newTodoList.forEach((item) => {
-      if (item.id === todoItemId) {
+      if (item.id === id) {
         item.todoTitle = todoTitle;
         item.todoContent = todoContent;
         return;
@@ -74,14 +74,14 @@ const TodoItem = ({ todoItem }) => {
       setIsUpdating(!isUpdating);
       return;
     }
-    updateTodoItem(todoItemId);
+    updateTodoItem();
     setIsUpdating(!isUpdating);
   };
 
   // when key up enter run todo update
   const keyUpEnter = (keyCode) => {
     if (keyCode === 13) {
-      updateTodoItem(todoItemId);
+      updateTodoItem();
       setIsUpdating(!isUpdating);
     }
   };
