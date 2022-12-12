@@ -13,7 +13,7 @@ const Header = () => {
 
 const StickyContainer = styled.header`
   position: sticky;
-  top: 0rem;
+  top: 0;
   background-color: #fff;
 `;
 

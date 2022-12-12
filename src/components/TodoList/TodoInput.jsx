@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { addTodo } from "../../redux/modules/todoList";
 import { useDispatch } from "react-redux";
@@ -9,6 +9,8 @@ const TodoInput = () => {
   const [todoContent, setTodoContent] = useState("");
 
   const dispatch = useDispatch();
+  const titleInputRef = useRef();
+  const contentInputRef = useRef();
 
   const handleTodoTitleOnChange = (event) => {
     setTodoTitle(event.target.value);
@@ -21,14 +23,19 @@ const TodoInput = () => {
   const onSubmitHandler = (event) => {
     if (!todoTitle && !todoContent) {
       event.preventDefault();
+      titleInputRef.current.focus();
+      console.log(titleInputRef);
       return alert("뭐라도 좀 쓰쇼");
     }
     if (!todoTitle) {
       event.preventDefault();
+      titleInputRef.current.focus();
       return alert("제목 좀 쓰쇼");
     }
     if (!todoContent) {
       event.preventDefault();
+      console.log(contentInputRef);
+      contentInputRef.current.focus();
       return alert("내용도 좀 쓰쇼");
     }
     event.preventDefault();
@@ -48,13 +55,7 @@ const TodoInput = () => {
   return (
     <TodoInputContainer
       onSubmit={(event) => {
-        onSubmitHandler(
-          event,
-          todoTitle,
-          todoContent,
-          setTodoTitle,
-          setTodoContent
-        );
+        onSubmitHandler(event);
       }}
       className="todo"
     >
@@ -67,6 +68,7 @@ const TodoInput = () => {
           handleTodoTitleOnChange(event);
         }}
         maxLength={22}
+        ref={titleInputRef}
       />
       <label htmlFor="todo-content">내용</label>
       <TodoInputBox
@@ -77,6 +79,7 @@ const TodoInput = () => {
           handleTodoContentOnChange(event);
         }}
         maxLength={35}
+        ref={contentInputRef}
       />
       <TodoSubmitButton type="submit"> 추가하기 </TodoSubmitButton>
     </TodoInputContainer>

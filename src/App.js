@@ -6,12 +6,12 @@ const App = () => {
     <>
       <GlobalStyle />
       <BrowserRouter>
-        <Layout>
-          <Routes>
+        <Routes>
+          <Route path="/" element={<Layout />}>
             <Route path="/" element={<Todo />} />
             <Route path="todo/:id" element={<TodoDetail />} />
-          </Routes>
-        </Layout>
+          </Route>
+        </Routes>
       </BrowserRouter>
     </>
   );
