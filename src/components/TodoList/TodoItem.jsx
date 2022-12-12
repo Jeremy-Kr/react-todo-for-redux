@@ -23,6 +23,10 @@ const TodoItem = ({ todoItem }) => {
     dispatch(toggleTodo(newTodoList));
   };
 
+  const onClickUpdateHandler = (todoItemId) => {
+    console.log(todoItemId);
+  };
+
   return (
     <CustomLi>
       <Link to={`todo/${todoItem.id}`}>
@@ -36,8 +40,17 @@ const TodoItem = ({ todoItem }) => {
             onClickToggleHandler(todoItem.id);
           }}
           isDone={todoItem.isDone}
+          buttonColor={todoItem.isDone ? "#F9817F" : "#68AB7D"}
         >
           {todoItem.isDone ? "취소" : "완료"}
+        </CustomButton>
+        <CustomButton
+          onClick={() => {
+            onClickUpdateHandler(todoItem.id);
+          }}
+          buttonColor={"#B0DAF7"}
+        >
+          수정하기
         </CustomButton>
         <CustomButton
           onClick={() => {
@@ -63,17 +76,7 @@ const CustomHr = styled.hr`
 `;
 
 const CustomButton = styled.button`
-  background-color: ${(props) => {
-    if (props.children === "삭제") {
-      return "#f7cac9";
-    } else {
-      if (props.isDone) {
-        return "red";
-      } else {
-        return "green";
-      }
-    }
-  }};
+  background-color: ${({ buttonColor }) => buttonColor ?? "#f7cac9"};
   border: none;
   height: 2rem;
   width: 4rem;
@@ -82,7 +85,7 @@ const CustomButton = styled.button`
   transition: 0.3s;
   &:hover {
     cursor: pointer;
-    border: 1px solid #f7cac9;
+    border: 1px solid ${({ buttonColor }) => buttonColor ?? "#f7cac9"};
     background-color: #fff;
     scale: 1.05;
   }
