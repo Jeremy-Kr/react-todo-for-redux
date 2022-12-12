@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 const ADD_TODO = "ADD_TODO";
 const DELETE_TODO = "DELETE_TODO";
 const TOGGLE_TODO = "TOGGLE_TODO";
+const UPDATE_TODO = "UPDATE_TODO";
 
 // Action Creator
 export const addTodo = (payload) => {
@@ -27,6 +28,13 @@ export const toggleTodo = (payload) => {
   };
 };
 
+export const updateTodo = (payload) => {
+  return {
+    type: UPDATE_TODO,
+    payload,
+  };
+};
+
 // init
 const initialState = [
   {
@@ -38,6 +46,18 @@ const initialState = [
   {
     todoTitle: "TodoList 리팩토링하기",
     todoContent: "투두리스트 리덕스로 상태관리 하기",
+    isDone: true,
+    id: uuidv4(),
+  },
+  {
+    todoTitle: "TodoList 리팩토링하기",
+    todoContent: "투두 아이템 수정 기능 만들기",
+    isDone: true,
+    id: uuidv4(),
+  },
+  {
+    todoTitle: "TodoList 문서작업하기",
+    todoContent: "Readme 작성하기",
     isDone: false,
     id: uuidv4(),
   },
@@ -51,6 +71,8 @@ const todoList = (state = initialState, action) => {
     case DELETE_TODO:
       return [...action.payload];
     case TOGGLE_TODO:
+      return [...action.payload];
+    case UPDATE_TODO:
       return [...action.payload];
     default:
       return state;

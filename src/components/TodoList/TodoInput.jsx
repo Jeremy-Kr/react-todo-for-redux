@@ -62,19 +62,21 @@ const TodoInput = () => {
       <TodoInputBox
         value={todoTitle}
         id="todo-title"
-        placeholder="제목을 입력 해 주세요."
+        placeholder="제목을 입력 해 주세요. (최대 22자)"
         onChange={(event) => {
           handleTodoTitleOnChange(event);
         }}
+        maxLength={22}
       />
       <label htmlFor="todo-content">내용</label>
       <TodoInputBox
         value={todoContent}
         id="todo-content"
-        placeholder="할 일을 입력 해 주세요."
+        placeholder="할 일을 입력 해 주세요. (최대 35자)"
         onChange={(event) => {
           handleTodoContentOnChange(event);
         }}
+        maxLength={35}
       />
       <TodoSubmitButton type="submit"> 추가하기 </TodoSubmitButton>
     </TodoInputContainer>
