@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 
 const TodoItem = ({ todoItem }) => {
-  const { id } = todoItem;
+  const { id, isDone } = todoItem;
   const dispatch = useDispatch();
 
   const [todoTitle, setTodoTitle] = useState(todoItem.todoTitle);
@@ -36,7 +36,7 @@ const TodoItem = ({ todoItem }) => {
 
   // todo toggle dispatch function
   const toggleTodoItem = () => {
-    dispatch(toggleTodo(id));
+    dispatch(toggleTodo({ isDone, id }));
   };
 
   // toggle button onclick handler
