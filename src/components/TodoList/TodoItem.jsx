@@ -26,10 +26,9 @@ const TodoItem = ({ todoItem }) => {
     setTodoContent(event.target.value);
   };
 
-  // todo delete logic
+  // todo delete dispatch function
   const deleteTodoItem = () => {
-    const newTodoList = todoList.filter((item) => item.id !== id);
-    dispatch(deleteTodo(newTodoList));
+    dispatch(deleteTodo(id));
   };
 
   // delete button onclick handler
@@ -37,16 +36,9 @@ const TodoItem = ({ todoItem }) => {
     deleteTodoItem();
   };
 
-  // todo toggle logic
+  // todo toggle dispatch function
   const toggleTodoItem = () => {
-    const newTodoList = [...todoList];
-    newTodoList.forEach((item) => {
-      if (item.id === id) {
-        return (item.isDone = !item.isDone);
-      }
-    });
-
-    dispatch(toggleTodo(newTodoList));
+    dispatch(toggleTodo(id));
   };
 
   // toggle button onclick handler
@@ -54,18 +46,15 @@ const TodoItem = ({ todoItem }) => {
     toggleTodoItem();
   };
 
-  // todo update logic
+  // todo update dispatch function
   const updateTodoItem = () => {
-    const newTodoList = [...todoList];
-    newTodoList.forEach((item) => {
-      if (item.id === id) {
-        item.todoTitle = todoTitle;
-        item.todoContent = todoContent;
-        return;
-      }
-    });
-
-    dispatch(updateTodo(newTodoList));
+    dispatch(
+      updateTodo({
+        todoTitle,
+        todoContent,
+        id,
+      })
+    );
   };
 
   // update button onclick handler

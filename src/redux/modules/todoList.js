@@ -7,31 +7,31 @@ const TOGGLE_TODO = "TOGGLE_TODO";
 const UPDATE_TODO = "UPDATE_TODO";
 
 // Action Creator
-export const addTodo = (payload) => {
+export const addTodo = (newTodoItem) => {
   return {
     type: ADD_TODO,
-    payload,
+    newTodoItem,
   };
 };
 
-export const deleteTodo = (payload) => {
+export const deleteTodo = (todoItemId) => {
   return {
     type: DELETE_TODO,
-    payload,
+    todoItemId,
   };
 };
 
-export const toggleTodo = (payload) => {
+export const toggleTodo = (todoItemId) => {
   return {
     type: TOGGLE_TODO,
-    payload,
+    todoItemId,
   };
 };
 
-export const updateTodo = (payload) => {
+export const updateTodo = (updateTodoItem) => {
   return {
     type: UPDATE_TODO,
-    payload,
+    updateTodoItem,
   };
 };
 
@@ -65,15 +65,36 @@ const initialState = [
 
 // Reducer
 const todoList = (state = initialState, action) => {
+  const prevState = [...state];
+
   switch (action.type) {
     case ADD_TODO:
-      return [...state, action.payload];
+      return [...state, action.newTodoItem];
+
     case DELETE_TODO:
-      return [...action.payload];
+      const newTodoList = state.filter((item) => item.id !== action.todoItemId);
+      return newTodoList;
+
     case TOGGLE_TODO:
-      return [...action.payload];
+      prevState.forEach((item) => {
+        if (item.id === action.todoItemId) {
+          return (item.isDone = !item.isDone);
+        }
+      });
+      return prevState;
+
     case UPDATE_TODO:
-      return [...action.payload];
+      const { todoTitle, todoContent, id } = action.updateTodoItem;
+      prevState.forEach((item) => {
+        if (item.id === id) {
+          item.todoTitle = todoTitle;
+          item.todoContent = todoContent;
+          return;
+        }
+      });
+
+      return prevState;
+
     default:
       return state;
   }
