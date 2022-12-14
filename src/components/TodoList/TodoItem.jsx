@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   deleteTodo,
   toggleTodo,
@@ -9,10 +9,8 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 
 const TodoItem = ({ todoItem }) => {
-  const dispatch = useDispatch();
-  const todoList = useSelector((state) => state.todoList);
-
   const { id } = todoItem;
+  const dispatch = useDispatch();
 
   const [todoTitle, setTodoTitle] = useState(todoItem.todoTitle);
   const [todoContent, setTodoContent] = useState(todoItem.todoContent);
