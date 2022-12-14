@@ -1,79 +1,141 @@
-import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
 
 // Action Value
-const ADD_TODO = "ADD_TODO";
-const DELETE_TODO = "DELETE_TODO";
-const TOGGLE_TODO = "TOGGLE_TODO";
-const UPDATE_TODO = "UPDATE_TODO";
+const GET_TODOS_SUCCESS = "GET_TODOS_SUCCESS";
+const POST_TODO_SUCCESS = "POST_TODO_SUCCESS";
+const DELETE_TODO_SUCCESS = "DELETE_TODO_SUCCESS";
+const TOGGLE_TODO_SUCCESS = "TOGGLE_TODO_SUCCESS";
+const UPDATE_TODO_SUCCESS = "UPDATE_TODO_SUCCESS";
 
 // Action Creator
-export const addTodo = (payload) => {
+
+const getTodosSuccess = (todos) => {
   return {
-    type: ADD_TODO,
-    payload,
+    type: GET_TODOS_SUCCESS,
+    todos,
   };
 };
 
-export const deleteTodo = (payload) => {
+const postTodoSuccess = (todo) => {
   return {
-    type: DELETE_TODO,
-    payload,
+    type: POST_TODO_SUCCESS,
+    todo,
   };
 };
 
-export const toggleTodo = (payload) => {
+const deleteTodoSuccess = (todoItemId) => {
   return {
-    type: TOGGLE_TODO,
-    payload,
+    type: DELETE_TODO_SUCCESS,
+    todoItemId,
   };
 };
 
-export const updateTodo = (payload) => {
+const toggleTodoSuccess = (todoItemId) => {
   return {
-    type: UPDATE_TODO,
-    payload,
+    type: TOGGLE_TODO_SUCCESS,
+    todoItemId,
   };
 };
 
-// init
-const initialState = [
-  {
-    todoTitle: "TodoList 만들기",
-    todoContent: "투두리스트 리액트로 만들기",
-    isDone: true,
-    id: uuidv4(),
-  },
-  {
-    todoTitle: "TodoList 리팩토링하기",
-    todoContent: "투두리스트 리덕스로 상태관리 하기",
-    isDone: true,
-    id: uuidv4(),
-  },
-  {
-    todoTitle: "TodoList 리팩토링하기",
-    todoContent: "투두 아이템 수정 기능 만들기",
-    isDone: true,
-    id: uuidv4(),
-  },
-  {
-    todoTitle: "TodoList 문서작업하기",
-    todoContent: "Readme 작성하기",
-    isDone: false,
-    id: uuidv4(),
-  },
-];
+const updateTodoSuccess = (todo) => {
+  return {
+    type: UPDATE_TODO_SUCCESS,
+    todo,
+  };
+};
+// redux thunk
+export const getTodos = () => async (dispatch) => {
+  await axios
+    .get("https://6399248afe03352a94e712ea.mockapi.io/todolist")
+    .then((res) => {
+      dispatch(getTodosSuccess(res.data));
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+};
 
+export const postTodo = (newTodo) => async (dispatch) => {
+  await axios
+    .post("https://6399248afe03352a94e712ea.mockapi.io/todolist", newTodo)
+    .then((res) => {
+      dispatch(postTodoSuccess(res.data));
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+};
+
+export const deleteTodo = (todoId) => async (dispatch) => {
+  await axios
+    .delete(`https://6399248afe03352a94e712ea.mockapi.io/todolist/${todoId}`)
+    .then((res) => {
+      dispatch(deleteTodoSuccess(res.data.id));
+      alert("삭제완료!");
+    });
+};
+
+export const toggleTodo =
+  ({ isDone, id }) =>
+  async (dispatch) => {
+    await axios
+      .put(`https://6399248afe03352a94e712ea.mockapi.io/todolist/${id}`, {
+        isDone: !isDone,
+      })
+      .then((res) => dispatch(toggleTodoSuccess(res.data.id)))
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+export const updateTodo = (newTodo) => async (dispatch) => {
+  await axios
+    .put(
+      `https://6399248afe03352a94e712ea.mockapi.io/todolist/${newTodo.id}`,
+      newTodo
+    )
+    .then((res) => dispatch(updateTodoSuccess(res.data)));
+};
 // Reducer
-const todoList = (state = initialState, action) => {
+const todoList = (state = [], action) => {
+  let prevState;
+  if (state) {
+    prevState = [...state];
+  }
+
   switch (action.type) {
-    case ADD_TODO:
-      return [...state, action.payload];
-    case DELETE_TODO:
-      return [...action.payload];
-    case TOGGLE_TODO:
-      return [...action.payload];
-    case UPDATE_TODO:
-      return [...action.payload];
+    case GET_TODOS_SUCCESS:
+      return action.todos;
+
+    case POST_TODO_SUCCESS:
+      return [...state, action.todo];
+
+    case DELETE_TODO_SUCCESS:
+      const newTodoList = prevState.filter(
+        (item) => item.id !== action.todoItemId
+      );
+      return newTodoList;
+
+    case TOGGLE_TODO_SUCCESS:
+      prevState.forEach((item) => {
+        if (item.id === action.todoItemId) {
+          return (item.isDone = !item.isDone);
+        }
+      });
+      return prevState;
+
+    case UPDATE_TODO_SUCCESS:
+      const { todoTitle, todoContent, id } = action.todo;
+      prevState.forEach((item) => {
+        if (item.id === id) {
+          item.todoTitle = todoTitle;
+          item.todoContent = todoContent;
+          return;
+        }
+      });
+
+      return prevState;
+
     default:
       return state;
   }

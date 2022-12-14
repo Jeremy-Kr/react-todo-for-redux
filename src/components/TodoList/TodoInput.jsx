@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { useRef, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
-import { addTodo } from "../../redux/modules/todoList";
+import { postTodo } from "../../redux/modules/todoList";
 import { useDispatch } from "react-redux";
 
 const TodoInput = () => {
@@ -24,7 +23,6 @@ const TodoInput = () => {
     if (!todoTitle && !todoContent) {
       event.preventDefault();
       titleInputRef.current.focus();
-      console.log(titleInputRef);
       return alert("뭐라도 좀 쓰쇼");
     }
     if (!todoTitle) {
@@ -43,11 +41,9 @@ const TodoInput = () => {
     const newTodoItem = {
       todoTitle,
       todoContent,
-      isDone: false,
-      id: uuidv4(),
     };
 
-    dispatch(addTodo(newTodoItem));
+    dispatch(postTodo(newTodoItem));
     setTodoTitle("");
     setTodoContent("");
   };
